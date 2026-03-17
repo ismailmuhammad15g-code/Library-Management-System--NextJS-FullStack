@@ -16,6 +16,8 @@ import BookCover from "@/components/BookCover";
 import { createComment } from "@/lib/actions/comment";
 
 const COUNTDOWN_SECONDS = 9;
+/** Maximum allowed characters for a download page comment (must match server-side validation). */
+const MAX_COMMENT_LENGTH = 1000;
 
 interface DownloadPageClientProps {
   bookId: string;
@@ -209,7 +211,7 @@ const DownloadPageClient: React.FC<DownloadPageClientProps> = ({
                       strokeLinecap="round"
                       strokeDasharray={circumference}
                       strokeDashoffset={circumference - progress}
-                      style={{ transition: "stroke-dashoffset 0.95s linear" }}
+                      style={{ transition: "stroke-dashoffset 1s linear" }}
                     />
                   </svg>
                   <span className="absolute text-4xl font-bold text-primary">
@@ -330,12 +332,12 @@ const DownloadPageClient: React.FC<DownloadPageClientProps> = ({
                       onChange={(e) => setComment(e.target.value)}
                       placeholder="Share your thoughts about this book…"
                       rows={4}
-                      maxLength={1000}
+                      maxLength={MAX_COMMENT_LENGTH}
                       disabled={!userId || commentStatus === "submitting"}
                       className="w-full rounded-lg border border-dark-600 bg-dark-300 px-4 py-3 text-sm text-light-100 placeholder:text-light-100/40 focus:border-primary/50 focus:outline-none focus:ring-1 focus:ring-primary/50 disabled:cursor-not-allowed disabled:opacity-50"
                     />
                     <p className="mt-1 text-right text-xs text-light-100/40">
-                      {comment.length}/1000
+                      {comment.length}/{MAX_COMMENT_LENGTH}
                     </p>
                   </div>
 

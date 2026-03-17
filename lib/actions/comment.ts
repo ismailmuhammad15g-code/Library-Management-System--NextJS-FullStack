@@ -48,6 +48,7 @@ export const createComment = async (
     if (trimmedContent.length > 1000) {
       return {
         success: false,
+        // Must stay in sync with MAX_COMMENT_LENGTH in DownloadPageClient
         error: "Comment must be 1000 characters or fewer",
       };
     }
