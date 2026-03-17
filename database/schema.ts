@@ -114,6 +114,7 @@ export const books = pgTable("books", {
   language: varchar("language", { length: 50 }).default("English"), // Book language
   pageCount: integer("page_count"), // Number of pages
   edition: varchar("edition", { length: 50 }), // Edition number/version
+  pdfUrl: text("pdf_url"), // URL to downloadable PDF file
   isActive: boolean("is_active").default(true).notNull(), // Soft delete flag
   updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow(), // Last modification
   updatedBy: uuid("updated_by").references(() => users.id), // Who last updated (admin)
@@ -215,6 +216,28 @@ export const bookReviews = pgTable("book_reviews", {
   comment: text("comment").notNull(), // Review text content
   createdAt: timestamp("created_at", { withTimezone: true }).defaultNow(), // When review was posted
   updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow(), // When review was last edited
+});
+
+/**
+ * Comments Table
+ *
+ * Stores user comments/reviews left after downloading a book
+ *
+ * Business Rules:
+ * - Users must be logged in to leave a comment
+ * - Each comment is tied to a specific book and user
+ * - Comments are triggered by the post-download flow
+ */
+export const comments = pgTable("comments", {
+  id: uuid("id").notNull().primaryKey().defaultRandom().unique(),
+  userId: uuid("user_id")
+    .references(() => users.id) // Foreign key to users table
+    .notNull(),
+  bookId: uuid("book_id")
+    .references(() => books.id) // Foreign key to books table
+    .notNull(),
+  content: text("content").notNull(), // Comment text
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow(), // When comment was posted
 });
 
 /**
