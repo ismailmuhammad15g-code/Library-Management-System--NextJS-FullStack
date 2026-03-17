@@ -146,5 +146,11 @@ export const bookSchema = z.object({
     .trim()
     .max(50, "Edition must be less than 50 characters")
     .optional(),
+  pdfUrl: z
+    .string()
+    .trim()
+    .optional()
+    .transform((val) => (val === "" ? undefined : val))
+    .pipe(z.string().url("PDF URL must be a valid URL").optional()),
   isActive: z.boolean().optional(),
 });

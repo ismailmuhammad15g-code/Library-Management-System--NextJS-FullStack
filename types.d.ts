@@ -30,6 +30,7 @@ interface Book {
   language?: string | null;
   pageCount?: number | null;
   edition?: string | null;
+  pdfUrl?: string | null;
   isActive: boolean;
   updatedAt: Date | null;
   updatedBy?: string | null;
@@ -62,6 +63,7 @@ interface BookParams {
   language?: string;
   pageCount?: number;
   edition?: string;
+  pdfUrl?: string;
   isActive?: boolean;
 }
 

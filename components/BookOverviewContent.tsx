@@ -18,7 +18,7 @@ import BookCover from "@/components/BookCover";
 import BookBorrowStats from "@/components/BookBorrowStats";
 import BookBorrowButton from "@/components/BookBorrowButton";
 import { Button } from "@/components/ui/button";
-import { BookOpen } from "lucide-react";
+import { BookOpen, Download } from "lucide-react";
 import Link from "next/link";
 import { useBook } from "@/hooks/useQueries";
 import BookSkeleton from "@/components/skeletons/BookSkeleton";
@@ -131,6 +131,7 @@ const BookOverviewContent: React.FC<BookOverviewContentProps> = ({
     language,
     pageCount,
     edition,
+    pdfUrl,
     isActive,
     createdAt,
     updatedAt,
@@ -294,17 +295,33 @@ const BookOverviewContent: React.FC<BookOverviewContentProps> = ({
           <div className="flex flex-col gap-3 sm:flex-row sm:gap-4">
             {/* Use Client Component for borrow button logic - updates immediately */}
             {isDetailPage ? (
-              <BookBorrowButton
-                bookId={id}
-                userId={userId}
-                bookTitle={title}
-                availableCopies={availableCopies}
-                isActive={isActive}
-                userStatus={userStatus}
-                isDetailPage={true}
-                initialUserBorrows={initialUserBorrows}
-                initialReviewEligibility={initialReviewEligibility}
-              />
+              <>
+                <BookBorrowButton
+                  bookId={id}
+                  userId={userId}
+                  bookTitle={title}
+                  availableCopies={availableCopies}
+                  isActive={isActive}
+                  userStatus={userStatus}
+                  isDetailPage={true}
+                  initialUserBorrows={initialUserBorrows}
+                  initialReviewEligibility={initialReviewEligibility}
+                />
+                {/* Download button – only shown when the book has a PDF URL */}
+                {pdfUrl && (
+                  <Button
+                    asChild
+                    className="min-h-14 w-full bg-dark-600 text-primary hover:bg-dark-600/80 sm:w-fit"
+                  >
+                    <Link href={`/books/${id}/download`}>
+                      <Download className="size-4 sm:size-5" />
+                      <p className="font-bebas-neue text-base sm:text-xl">
+                        Download &amp; Read
+                      </p>
+                    </Link>
+                  </Button>
+                )}
+              </>
             ) : (
               <>
                 <BookBorrowButton

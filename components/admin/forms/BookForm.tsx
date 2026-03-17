@@ -67,6 +67,7 @@ const BookForm = ({ type = "create", ...book }: Props) => {
       language: type === "create" ? undefined : (book.language ?? undefined),
       pageCount: book.pageCount ?? undefined,
       edition: book.edition || undefined,
+      pdfUrl: book.pdfUrl || undefined,
       isActive: book.isActive ?? true,
     },
   });
@@ -508,6 +509,34 @@ const BookForm = ({ type = "create", ...book }: Props) => {
               )}
             />
           </div>
+
+          {/* PDF URL field */}
+          <FormField
+            control={form.control}
+            name={"pdfUrl"}
+            render={({ field }) => (
+              <FormItem className="mt-4 flex flex-col gap-1">
+                <FormLabel className="text-base font-normal text-dark-500">
+                  PDF URL{" "}
+                  <span className="text-sm text-dark-500/70">(Optional)</span>
+                </FormLabel>
+                <FormControl>
+                  <Input
+                    type="url"
+                    placeholder={BOOK_FIELD_PLACEHOLDERS.pdfUrl}
+                    {...field}
+                    value={field.value ?? ""}
+                    className="book-form_input"
+                  />
+                </FormControl>
+                <p className="text-xs text-dark-500/70">
+                  Provide a direct link to the downloadable PDF version of this
+                  book.
+                </p>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
           <FormField
             control={form.control}

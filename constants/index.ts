@@ -87,6 +87,7 @@ export const BOOK_FIELD_PLACEHOLDERS = {
   language: "English",
   pageCount: "300",
   edition: "1st Edition",
+  pdfUrl: "https://example.com/book.pdf",
   coverUrl: "Upload a book cover",
   videoUrl: "Upload a book trailer",
 };
